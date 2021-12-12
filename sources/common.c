@@ -17,3 +17,36 @@ GdkPixbuf *create_pixbuf(const gchar *filename) {
     }
     return pixbuf;
 }
+
+void on_return_button_clicked(GtkWidget *button, gpointer window) {
+    gtk_widget_hide(GTK_WIDGET(window));
+}
+
+int partition(Book *array[], int low, int high) //返回枢轴位置
+{
+    Book *flag = array[low];
+    while (low < high) {
+        while (low < high && strcmp(array[high]->bookName, flag->bookName) > 0) {
+            high--;
+        }
+        array[low] = array[high];
+        while (low < high && strcmp(array[low]->bookName, flag->bookName) < 0) {
+            low++;
+        }
+        array[high] = array[low];
+    }
+    array[low] = flag;
+    return low;
+}
+
+void Qsort(Book *array[], int low, int high) {
+    if (low < high) {
+        int flag = partition(array, low, high);
+        Qsort(array, low, flag - 1);
+        Qsort(array, flag + 1, high);
+    }
+}
+
+void Quick_sort(Book *array[], int length) {
+    Qsort(array, 0, length - 1);
+}

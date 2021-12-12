@@ -2,6 +2,7 @@
 // Created by god on 2021/12/11.
 //
 #include "headers/mainWindow.h"
+#include "headers/data_operations.h"
 
 GtkWidget *create_Enter_window() {
 
@@ -32,6 +33,22 @@ GtkWidget *create_Enter_window() {
 }
 
 void on_Enter_button_clicked(GtkWidget *button, gpointer window) {
+    bookType[0] = "计算机类";
+    bookType[1] = "生活类";
+    bookType[2] = "文学类";
+    bookType[3] = "历史类";
+    bookType[4] = "体育类";
+    bookType[5] = "艺术类";
+    bookType[6] = "杂志";
+    bookType[7] = "其他";
+    bookData = (BookInfo *) malloc(sizeof(BookInfo));
+//    for (int i = 0; i < 50; i++) {
+//        bookData->books[i] = (Book *) malloc(sizeof(Book));
+//    }
+    FILE *ip;
+    ip = fopen("/home/god/Projects/Book-Management-System/Data/book.txt", "r");
+    import_book_data_from_file(ip, bookData);
+    fclose(ip);
     gtk_widget_hide(window);
     gtk_widget_show_all(create_main_window());
 }
@@ -70,16 +87,16 @@ GtkWidget *create_main_window() {
 }
 
 void on_view_button_clicked(GtkWidget *button, gpointer window) {
-    gtk_widget_hide(window);
+//    gtk_widget_hide(window);
     gtk_widget_show_all(create_view_window());
 }
 
 void on_create_button_clicked(GtkWidget *button, gpointer window) {
-
+//    gtk_widget_show_all()
 }
 
 void on_search_button_clicked(GtkWidget *button, gpointer window) {
-    gtk_widget_hide(window);
+//    gtk_widget_hide(window);
     gtk_widget_show_all(create_search_window());
 }
 
