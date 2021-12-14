@@ -71,4 +71,5 @@ int partition(Book *array[], int low, int high);
 
 void Qsort(Book *array[], int low, int high);
 
+int search_book(Book *array[], int length, char *book_id);
 #endif //BOOK_SYSTEM_COMMON_H

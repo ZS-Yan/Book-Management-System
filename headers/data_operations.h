@@ -19,4 +19,8 @@ int insert_reader(Reader *reader, ReaderInfo *readerInfo);
 
 void insert_borrow_book(BorrowBook *borrowBook, BorrowInfo *borrowInfo);
 
+void delete_book(char *book_id, BookInfo *bookInfo);
+
+void delete_all_books(BookInfo *bookInfo);
+
 #endif //BOOK_SYSTEM_DATA_OPERATIONS_H

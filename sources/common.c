@@ -26,11 +26,11 @@ int partition(Book *array[], int low, int high) //返回枢轴位置
 {
     Book *flag = array[low];
     while (low < high) {
-        while (low < high && strcmp(array[high]->bookName, flag->bookName) > 0) {
+        while (low < high && strcmp(array[high]->bookId, flag->bookId) > 0) {
             high--;
         }
         array[low] = array[high];
-        while (low < high && strcmp(array[low]->bookName, flag->bookName) < 0) {
+        while (low < high && strcmp(array[low]->bookId, flag->bookId) < 0) {
             low++;
         }
         array[high] = array[low];
@@ -49,4 +49,20 @@ void Qsort(Book *array[], int low, int high) {
 
 void Quick_sort(Book *array[], int length) {
     Qsort(array, 0, length - 1);
+}
+
+int search_book(Book *array[], int length, char *book_id) {
+    int low = 0;
+    int high = length - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        char *midVal = array[mid]->bookId;
+        if (strcmp(midVal, book_id) < 0)
+            low = mid + 1;
+        else if (strcmp(midVal, book_id) > 0)
+            high = mid - 1;
+        else
+            return mid;
+    }
+    return -1;
 }

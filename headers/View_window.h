@@ -7,6 +7,8 @@
 
 
 #include "headers/common.h"
+#include "headers/data_operations.h"
+
 enum {
     COLUMN_TYPE,
     COLUMN_ID,
@@ -18,15 +20,28 @@ enum {
     COLUMN_BORROWTIME,
     N_COLUMNS
 };
+typedef struct {
+    GtkWidget *window;
+    GtkWidget *tree_view;
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeStore *store;
+    GtkWidget *current_label;
+    GtkWidget *borrow_label;
+} delete_passing_parameters;
 
 GtkWidget *create_view_window();
 
-int find_index(char *book_type, char *BookType[]);
+int find_type_index(char *book_type, char *BookType[]);
+
+int count_unique_type_bookNum(BookInfo *bookInfo, char *book_type);
 
 void insert_tree_view(GtkTreeStore *store, GtkTreeIter parent_iter, GtkTreeIter child_iter, Book *book);
 
-void on_delete_button_clicked(GtkWidget *button, gpointer window);
+void on_delete_button_clicked(GtkWidget *button, delete_passing_parameters *parameters);
 
-void on_delete_all_button_clicked(GtkWidget *button, gpointer window);
+void on_delete_all_button_clicked(GtkWidget *button, delete_passing_parameters *parameters);
+
+void update_label(GtkWidget *current_label, GtkWidget *borrow_label);
 
 #endif //BOOK_SYSTEM_VIEW_WINDOW_H

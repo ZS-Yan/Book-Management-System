@@ -41,10 +41,12 @@ void on_Enter_button_clicked(GtkWidget *button, gpointer window) {
     bookType[5] = "艺术类";
     bookType[6] = "杂志";
     bookType[7] = "其他";
+    //TODO:杂志类别判断错误
     bookData = (BookInfo *) malloc(sizeof(BookInfo));
 //    for (int i = 0; i < 50; i++) {
 //        bookData->books[i] = (Book *) malloc(sizeof(Book));
 //    }
+    bookData->booksNum = 0;
     FILE *ip;
     ip = fopen("/home/god/Projects/Book-Management-System/Data/book.txt", "r");
     import_book_data_from_file(ip, bookData);

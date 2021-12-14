@@ -114,6 +114,16 @@ void insert_borrow_book(BorrowBook *borrowBook, BorrowInfo *borrowInfo) {
     borrowInfo->borrowBook[borrowInfo->borrowNum++] = borrowBook;
 }
 
+void delete_book(char *book_id, BookInfo *bookInfo) {
+    int location = search_book(bookData->books, bookData->booksNum, book_id);
+    for (int i = location; i < bookInfo->booksNum; i++)//顺序移动
+    {
+        bookInfo->books[i] = bookInfo->books[i + 1];
+    }
+    bookInfo->booksNum -= 1;
+}
 
-
+void delete_all_books(BookInfo *bookInfo) {
+    bookInfo->booksNum = 0;
+}
 
