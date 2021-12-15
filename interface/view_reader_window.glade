@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkWindow" id="main_window">
+  <object class="GtkWindow" id="view_readers_window">
     <property name="can_focus">False</property>
     <property name="window_position">center</property>
     <child type="titlebar">
@@ -27,7 +27,7 @@
             <property name="height_request">125</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">欢迎使用图书信息管理系统</property>
+            <property name="label" translatable="yes">读者信息列表</property>
             <attributes>
               <attribute name="font-desc" value="Serif Bold 10"/>
               <attribute name="style" value="normal"/>
@@ -37,92 +37,80 @@
             </attributes>
           </object>
           <packing>
-            <property name="x">203</property>
-            <property name="y">98</property>
+            <property name="x">208</property>
+            <property name="y">48</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="search_button">
-            <property name="label" translatable="yes">查找图书信息</property>
-            <property name="width_request">185</property>
-            <property name="height_request">70</property>
+          <object class="GtkButton" id="return_button">
+            <property name="label" translatable="yes">返回</property>
+            <property name="width_request">127</property>
+            <property name="height_request">57</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </object>
           <packing>
-            <property name="x">318</property>
-            <property name="y">380</property>
+            <property name="x">905</property>
+            <property name="y">627</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="create_button">
-            <property name="label" translatable="yes">采编图书信息</property>
-            <property name="width_request">185</property>
-            <property name="height_request">70</property>
+          <object class="GtkScrolledWindow" id="scrolled_window">
+            <property name="width_request">955</property>
+            <property name="height_request">410</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="x">88</property>
+            <property name="y">181</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="import_button">
+            <property name="label" translatable="yes">批量导入</property>
+            <property name="width_request">127</property>
+            <property name="height_request">57</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </object>
           <packing>
-            <property name="x">615</property>
-            <property name="y">260</property>
+            <property name="x">442</property>
+            <property name="y">628</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="view_button">
-            <property name="label" translatable="yes">查看馆藏信息</property>
-            <property name="width_request">185</property>
-            <property name="height_request">70</property>
+          <object class="GtkButton" id="delete_button">
+            <property name="label" translatable="yes">删除</property>
+            <property name="width_request">127</property>
+            <property name="height_request">57</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </object>
           <packing>
-            <property name="x">320</property>
-            <property name="y">260</property>
+            <property name="x">598</property>
+            <property name="y">627</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="person_button">
-            <property name="label" translatable="yes">查看读者信息</property>
-            <property name="width_request">185</property>
-            <property name="height_request">70</property>
+          <object class="GtkButton" id="delete_all_button">
+            <property name="label" translatable="yes">删除全部</property>
+            <property name="width_request">127</property>
+            <property name="height_request">57</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
           </object>
           <packing>
-            <property name="x">615</property>
-            <property name="y">380</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="Exit_button">
-            <property name="label" translatable="yes">退出</property>
-            <property name="width_request">185</property>
-            <property name="height_request">70</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-          </object>
-          <packing>
-            <property name="x">615</property>
-            <property name="y">500</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="export_button">
-            <property name="label" translatable="yes">导出馆藏信息</property>
-            <property name="width_request">185</property>
-            <property name="height_request">70</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-          </object>
-          <packing>
-            <property name="x">318</property>
-            <property name="y">500</property>
+            <property name="x">754</property>
+            <property name="y">627</property>
           </packing>
         </child>
       </object>

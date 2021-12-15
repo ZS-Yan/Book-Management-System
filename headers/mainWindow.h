@@ -9,6 +9,8 @@
 #include "headers/common.h"
 #include "headers/View_window.h"
 #include "headers/search_window.h"
+#include "headers/Add_window.h"
+#include "headers/view_readers_window.h"
 
 GtkWidget *create_Enter_window();
 
@@ -23,6 +25,10 @@ void on_create_button_clicked(GtkWidget *button, gpointer window);
 void on_search_button_clicked(GtkWidget *button, gpointer window);
 
 void on_person_button_clicked(GtkWidget *button, gpointer window);
+
+void on_export_button_clicked(GtkWidget *button, gpointer window);
+
+void on_export_file_button_clicked(GtkWidget *button, gpointer dialog);
 
 GtkWidget *create_main_window();
 

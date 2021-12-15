@@ -9,17 +9,6 @@
 #include "headers/common.h"
 #include "headers/data_operations.h"
 
-enum {
-    COLUMN_TYPE,
-    COLUMN_ID,
-    COLUMN_NAME,
-    COLUMN_AUTHOR,
-    COLUMN_PUB,
-    COLUMN_PAGES,
-    COLUMN_STATUS,
-    COLUMN_BORROWTIME,
-    N_COLUMNS
-};
 typedef struct {
     GtkWidget *window;
     GtkWidget *tree_view;
@@ -32,7 +21,7 @@ typedef struct {
 
 GtkWidget *create_view_window();
 
-int find_type_index(char *book_type, char *BookType[]);
+int find_type_index(char *book_type, BookType *book_type_data);
 
 int count_unique_type_bookNum(BookInfo *bookInfo, char *book_type);
 

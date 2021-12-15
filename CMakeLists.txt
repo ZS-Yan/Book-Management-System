@@ -10,7 +10,7 @@ add_executable(book_system
         sources/mainWindow.c
         sources/common.c
         headers/mainWindow.h
-        headers/common.h sources/View_window.c headers/View_window.h sources/search_window.c headers/search_window.h sources/data_operations.c headers/data_operations.h)
+        headers/common.h sources/View_window.c headers/View_window.h sources/search_window.c headers/search_window.h sources/data_operations.c headers/data_operations.h sources/Add_window.c headers/Add_window.h sources/view_readers_window.c headers/view_readers_window.h)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 

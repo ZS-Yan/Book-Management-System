@@ -9,11 +9,11 @@
 
 int import_book_data_from_file(FILE *ip, BookInfo *bookInfo);
 
-ResultDisplay *import_reader_Data_from_file(FILE *ip, ReaderInfo *readerInfo);
+ResultDisplay *import_reader_data_from_file(FILE *ip, ReaderInfo *readerInfo);
 
 int import_borrow_data_from_File(FILE *ip, BorrowInfo *borrowInfo);
 
-void insert_book(Book *book, BookInfo *bookInfo);
+int insert_book(Book *book, BookInfo *bookInfo);
 
 int insert_reader(Reader *reader, ReaderInfo *readerInfo);
 
@@ -22,5 +22,9 @@ void insert_borrow_book(BorrowBook *borrowBook, BorrowInfo *borrowInfo);
 void delete_book(char *book_id, BookInfo *bookInfo);
 
 void delete_all_books(BookInfo *bookInfo);
+
+void delete_reader(char *reader_id, ReaderInfo *readerInfo);
+
+void delete_all_readers(ReaderInfo *readerInfo);
 
 #endif //BOOK_SYSTEM_DATA_OPERATIONS_H

@@ -51,7 +51,36 @@ void Quick_sort(Book *array[], int length) {
     Qsort(array, 0, length - 1);
 }
 
-int search_book(Book *array[], int length, char *book_id) {
+int partition_reader(Reader *array[], int low, int high) //返回枢轴位置
+{
+    Reader *flag = array[low];
+    while (low < high) {
+        while (low < high && strcmp(array[high]->readerId, flag->readerId) > 0) {
+            high--;
+        }
+        array[low] = array[high];
+        while (low < high && strcmp(array[low]->readerId, flag->readerId) < 0) {
+            low++;
+        }
+        array[high] = array[low];
+    }
+    array[low] = flag;
+    return low;
+}
+
+void Qsort_reader(Reader *array[], int low, int high) {
+    if (low < high) {
+        int flag = partition_reader(array, low, high);
+        Qsort_reader(array, low, flag - 1);
+        Qsort_reader(array, flag + 1, high);
+    }
+}
+
+void Quick_sort_reader(Reader *array[], int length) {
+    Qsort_reader(array, 0, length - 1);
+}
+
+int search_book(Book *array[], int length, const char *book_id) {
     int low = 0;
     int high = length - 1;
     while (low <= high) {
@@ -60,6 +89,22 @@ int search_book(Book *array[], int length, char *book_id) {
         if (strcmp(midVal, book_id) < 0)
             low = mid + 1;
         else if (strcmp(midVal, book_id) > 0)
+            high = mid - 1;
+        else
+            return mid;
+    }
+    return -1;
+}
+
+int search_reader(Reader *array[], int length, const char *reader_id) {
+    int low = 0;
+    int high = length - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        char *midVal = array[mid]->readerId;
+        if (strcmp(midVal, reader_id) < 0)
+            low = mid + 1;
+        else if (strcmp(midVal, reader_id) > 0)
             high = mid - 1;
         else
             return mid;

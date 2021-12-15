@@ -5,7 +5,7 @@
 #include "headers/View_window.h"
 
 GtkWidget *create_view_window() {
-    int flag[6] = {0};
+    int flag[20] = {0};
     GtkBuilder *builder;//新建一个GtkBuilder对象用于读取GtkBuilder界面文件
     GtkWidget *view_window;
     GtkWidget *scrolled_window;
@@ -34,17 +34,17 @@ GtkWidget *create_view_window() {
     GtkTreeStore *store = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
                                              G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);//新建树视图
     GtkTreeIter child_iter;
-    GtkTreeIter parents_iter[8];
+    GtkTreeIter parents_iter[20];
 
     for (int i = 0; i < bookData->booksNum; i++) {
         char *book_type = bookData->books[i]->bookType;
-        int index = find_type_index(book_type, bookType);
+        int index = find_type_index(book_type, bookTypeData);
         if (flag[index] == 0) {
             gtk_tree_store_append(store, &parents_iter[index], NULL);
             gtk_tree_store_set(store, &parents_iter[index], COLUMN_TYPE, book_type, -1);
+            flag[index] = 1;
         }
         insert_tree_view(store, parents_iter[index], child_iter, bookData->books[i]);
-        flag[index] = 1;
     }
 
     /*建立窗口视图*/
@@ -87,9 +87,9 @@ GtkWidget *create_view_window() {
     return view_window;
 }
 
-int find_type_index(char *book_type, char *BookType[]) {
-    for (int i = 0; i < 8; i++) {
-        if (strcmp(book_type, BookType[i]) == 0) {
+int find_type_index(char *book_type, BookType *book_type_data) {
+    for (int i = 0; i < book_type_data->typeNum; i++) {
+        if (strcmp(book_type, book_type_data->bookType[i]) == 0) {
             return i;
         }
     }
@@ -110,9 +110,6 @@ void insert_tree_view(GtkTreeStore *store, GtkTreeIter parent_iter, GtkTreeIter 
                        status, COLUMN_BORROWTIME, book->borrowTime, -1);
     //gtk_tree_store_append: assertion 'VALID_ITER (parent, tree_store)' failed报错：父节点或子节点缺失
 }
-
-//TODO:在该页面显示馆藏信息，包括图书存储信息，借阅人数，馆藏数量，图书类别等
-
 
 void on_delete_button_clicked(GtkWidget *button, delete_passing_parameters *parameters) {
     GtkWidget *dialog;

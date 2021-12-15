@@ -25,12 +25,15 @@ int import_book_data_from_file(FILE *ip, BookInfo *bookInfo) {
         insert_book(book, bookInfo);
         count++;
     }
+    /*进行排序*/
+    Quick_sort(bookInfo->books, bookInfo->booksNum);
     return count;
 }
 
-ResultDisplay *import_reader_Data_from_file(FILE *ip, ReaderInfo *readerInfo) {
-//    int count = 0;
+ResultDisplay *import_reader_data_from_file(FILE *ip, ReaderInfo *readerInfo) {
     ResultDisplay *result = (ResultDisplay *) malloc(sizeof(ResultDisplay));
+    result->wrongNum = 0;
+    result->correctNum = 0;
     char readId[10];//读者编号
     char readerName[10];//读者姓名
     char readerSex[4];//性别
@@ -42,7 +45,7 @@ ResultDisplay *import_reader_Data_from_file(FILE *ip, ReaderInfo *readerInfo) {
                          readerSex, readerTel, email,
                          &borrowedNum, &maxBorrowNum)) {
         Reader *reader = (Reader *) malloc(sizeof(Reader));
-        strcpy(reader->readId, readId);
+        strcpy(reader->readerId, readId);
         strcpy(reader->readerName, readerName);
         strcpy(reader->readerSex, readerSex);
         strcpy(reader->readerTel, readerTel);
@@ -55,6 +58,7 @@ ResultDisplay *import_reader_Data_from_file(FILE *ip, ReaderInfo *readerInfo) {
             result->wrongNum++;
         }
     }
+    Quick_sort_reader(readerInfo->readers, readerInfo->readersNum);
     return result;
 }
 
@@ -80,19 +84,27 @@ int import_borrow_data_from_File(FILE *ip, BorrowInfo *borrowInfo) {
     return count;
 }
 
-void insert_book(Book *book, BookInfo *bookInfo) {
+/**
+ * @param book
+ * @param bookInfo
+ * @return 返回状态，1表示图书种类已存在，0表示图书种类新建
+ */
+int insert_book(Book *book, BookInfo *bookInfo) {
     //检测数据合法性
     int flag = 0;
-    for (int i = 0; i < 5; i++) {
-        if (strcmp(book->bookType, bookType[i]) == 0) {
+    for (int i = 0; i < bookTypeData->typeNum; i++) {
+        if (strcmp(book->bookType, bookTypeData->bookType[i]) == 0) {
             flag = 1;
             break;
         }
     }
     if (flag == 0) {
-        strcpy(book->bookType, bookType[5]);
+        bookTypeData->bookType[bookTypeData->typeNum] = (char *) malloc(sizeof(char) * 30);
+        strcpy(bookTypeData->bookType[bookTypeData->typeNum], book->bookType);
+        bookTypeData->typeNum++;
     }
     bookInfo->books[bookInfo->booksNum++] = book;
+    return flag;
 }
 
 int insert_reader(Reader *reader, ReaderInfo *readerInfo) {
@@ -115,7 +127,7 @@ void insert_borrow_book(BorrowBook *borrowBook, BorrowInfo *borrowInfo) {
 }
 
 void delete_book(char *book_id, BookInfo *bookInfo) {
-    int location = search_book(bookData->books, bookData->booksNum, book_id);
+    int location = search_book(bookInfo->books, bookInfo->booksNum, book_id);//二分查找
     for (int i = location; i < bookInfo->booksNum; i++)//顺序移动
     {
         bookInfo->books[i] = bookInfo->books[i + 1];
@@ -127,3 +139,16 @@ void delete_all_books(BookInfo *bookInfo) {
     bookInfo->booksNum = 0;
 }
 
+void delete_reader(char *reader_id, ReaderInfo *readerInfo) {
+    int location = search_reader(readerInfo->readers, readerInfo->readersNum, reader_id);//二分查找
+    for (int i = location; i < readerInfo->readersNum; i++)//顺序移动
+    {
+        readerInfo->readers[i] = readerInfo->readers[i + 1];
+    }
+    readerInfo->readersNum -= 1;
+}
+
+void delete_all_readers(ReaderInfo *readerInfo) {
+    readerInfo->readersNum = 0;
+}
+//TODO:数据的写入写出，流通中改变数据

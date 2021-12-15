@@ -13,9 +13,20 @@
 #define true 1
 #define false 0
 
+enum {
+    COLUMN_TYPE,
+    COLUMN_ID,
+    COLUMN_NAME,
+    COLUMN_AUTHOR,
+    COLUMN_PUB,
+    COLUMN_PAGES,
+    COLUMN_STATUS,
+    COLUMN_BORROWTIME,
+    N_COLUMNS
+};
 typedef struct {
-    char bookId[5];//图书编号
-    char bookName[30];//图书名称
+    char bookId[10];//图书编号
+    char bookName[50];//图书名称
     char bookType[20];//图书类型
     char bookAuthor[15];//图书作者
     char bookPub[30];//图书出版社
@@ -23,8 +34,18 @@ typedef struct {
     int status;//借阅状态
     char borrowTime[20];//借出时间
 } Book;//图书信息
+enum {
+    COLUMN_READERID,
+    COLUMN_READERNAME,
+    COLUMN_READERSEX,
+    COLUMN_READERTEL,
+    COLUMN_READEREMAIL,
+    COLUMN_BORROWEDNUM,
+    COLUMN_MAXBORROWNUM,
+    N_READER_COLUMNS
+};
 typedef struct {
-    char readId[10];//读者编号
+    char readerId[10];//读者编号
     char readerName[10];//读者姓名
     char readerSex[4];//性别
     char readerTel[13];//电话
@@ -56,12 +77,14 @@ typedef struct {
     int correctNum;
     int wrongNum;
 } ResultDisplay;
-
+typedef struct {
+    char *bookType[20];
+    int typeNum;
+} BookType;
 BookInfo *bookData;
 ReaderInfo *readerData;
 BorrowInfo *borrowData;
-
-char *bookType[8];
+BookType *bookTypeData;
 
 GdkPixbuf *create_pixbuf(const gchar *filename);
 
@@ -71,5 +94,16 @@ int partition(Book *array[], int low, int high);
 
 void Qsort(Book *array[], int low, int high);
 
-int search_book(Book *array[], int length, char *book_id);
+void Quick_sort(Book *array[], int length);
+
+int partition_reader(Reader *array[], int low, int high);
+
+void Qsort_reader(Reader *array[], int low, int high);
+
+void Quick_sort_reader(Reader *array[], int length);
+
+int search_book(Book *array[], int length, const char *book_id);
+
+int search_reader(Reader *array[], int length, const char *reader_id);
+
 #endif //BOOK_SYSTEM_COMMON_H
