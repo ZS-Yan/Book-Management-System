@@ -1,0 +1,6 @@
+    char readerName[10];
+    char bookName[30];
+    char bookAuthor[15];
+    char bookPub[20];
+    char borrowTime[20];
+    char returnTime[20];//应归还时间

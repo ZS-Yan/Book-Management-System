@@ -13,6 +13,8 @@ ResultDisplay *import_reader_data_from_file(FILE *ip, ReaderInfo *readerInfo);
 
 int import_borrow_data_from_File(FILE *ip, BorrowInfo *borrowInfo);
 
+void import_administrator_data_from_file(FILE *ip, AdministratorInfo *administratorInfo);
+
 int insert_book(Book *book, BookInfo *bookInfo);
 
 int insert_reader(Reader *reader, ReaderInfo *readerInfo);

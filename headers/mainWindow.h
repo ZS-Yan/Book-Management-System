@@ -7,10 +7,12 @@
 
 
 #include "headers/common.h"
+#include "headers/data_operations.h"
 #include "headers/View_window.h"
 #include "headers/search_window.h"
 #include "headers/Add_window.h"
 #include "headers/view_readers_window.h"
+#include "headers/borrow_window.h"
 
 GtkWidget *create_Enter_window();
 

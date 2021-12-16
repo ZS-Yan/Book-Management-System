@@ -34,6 +34,8 @@ ResultDisplay *import_reader_data_from_file(FILE *ip, ReaderInfo *readerInfo) {
     ResultDisplay *result = (ResultDisplay *) malloc(sizeof(ResultDisplay));
     result->wrongNum = 0;
     result->correctNum = 0;
+    char username[30];
+    char password[20];
     char readId[10];//读者编号
     char readerName[10];//读者姓名
     char readerSex[4];//性别
@@ -41,10 +43,12 @@ ResultDisplay *import_reader_data_from_file(FILE *ip, ReaderInfo *readerInfo) {
     char email[20];//邮箱
     int borrowedNum;//已借阅数量
     int maxBorrowNum;//最大借阅数量
-    while (EOF != fscanf(ip, "%s %s %s %s %s %d %d", readId, readerName,
+    while (EOF != fscanf(ip, "%s %s %s %s %s %s %s %d %d", username, password, readId, readerName,
                          readerSex, readerTel, email,
                          &borrowedNum, &maxBorrowNum)) {
         Reader *reader = (Reader *) malloc(sizeof(Reader));
+        strcpy(reader->username, username);
+        strcpy(reader->password, password);
         strcpy(reader->readerId, readId);
         strcpy(reader->readerName, readerName);
         strcpy(reader->readerSex, readerSex);
@@ -82,6 +86,21 @@ int import_borrow_data_from_File(FILE *ip, BorrowInfo *borrowInfo) {
         count++;
     }
     return count;
+}
+
+void import_administrator_data_from_file(FILE *ip, AdministratorInfo *administratorInfo) {
+    const char whitespace[] = " "; //分隔符
+    const char linebreak[] = "\n"; //换行符
+    char buffer[200];              //缓冲区
+    while (fgets(buffer, N, ip))   //按行读取
+    {
+        Administrator *administrator = (Administrator *) malloc(sizeof(Administrator));
+        unsigned int length = strlen(buffer);
+        /*进行字符串分割*/
+        strcpy(administrator->administrator_name, strtok(buffer, whitespace));
+        strcpy(administrator->password, strtok(NULL, linebreak));
+        administratorInfo->administrator[administratorInfo->administratorNum++] = administrator;
+    }
 }
 
 /**

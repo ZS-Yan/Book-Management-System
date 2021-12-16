@@ -45,6 +45,8 @@ enum {
     N_READER_COLUMNS
 };
 typedef struct {
+    char username[30];
+    char password[50];
     char readerId[10];//读者编号
     char readerName[10];//读者姓名
     char readerSex[4];//性别
@@ -53,6 +55,16 @@ typedef struct {
     int borrowedNum;//已借阅数量
     int maxBorrowNum;//最大借阅数量
 } Reader;//读者信息
+enum {
+    COLUMN_BORROWID,
+    COLUMN_BORROWREADERNAME,
+    COLUMN_BORROWBOOKNAME,
+    COLUMN_BORROWBOOKAUTHOR,
+    COLUMN_BORROWBOOKPUB,
+    COLUMN_BORROWBORROWTIME,
+    COLUMN_RETURNTIME,
+    N_BORROW_COLUMNS
+};
 typedef struct {
     char readerName[10];
     char bookName[30];
@@ -81,10 +93,19 @@ typedef struct {
     char *bookType[20];
     int typeNum;
 } BookType;
+typedef struct {
+    char administrator_name[30];
+    char password[30];
+} Administrator;
+typedef struct {
+    Administrator *administrator[30];
+    int administratorNum;
+} AdministratorInfo;
 BookInfo *bookData;
 ReaderInfo *readerData;
 BorrowInfo *borrowData;
 BookType *bookTypeData;
+AdministratorInfo *administratorData;
 
 GdkPixbuf *create_pixbuf(const gchar *filename);
 
