@@ -30,7 +30,7 @@ typedef struct {
     char bookType[20];//图书类型
     char bookAuthor[15];//图书作者
     char bookPub[30];//图书出版社
-    char bookPages[4];//总页数
+    char bookPages[5];//总页数
     int status;//借阅状态
     char borrowTime[20];//借出时间
 } Book;//图书信息
@@ -66,10 +66,10 @@ enum {
     N_BORROW_COLUMNS
 };
 typedef struct {
-    char readerName[10];
+    char readerName[30];
     char bookName[30];
     char bookAuthor[15];
-    char bookPub[20];
+    char bookPub[30];
     char borrowTime[20];
     char returnTime[20];//应归还时间
 } BorrowBook;//借阅表
@@ -106,6 +106,7 @@ ReaderInfo *readerData;
 BorrowInfo *borrowData;
 BookType *bookTypeData;
 AdministratorInfo *administratorData;
+gboolean Identity;
 
 GdkPixbuf *create_pixbuf(const gchar *filename);
 
@@ -124,6 +125,8 @@ void Qsort_reader(Reader *array[], int low, int high);
 void Quick_sort_reader(Reader *array[], int length);
 
 int search_book(Book *array[], int length, const char *book_id);
+
+int search_book_name(Book *array[], int length, const char *book_name);
 
 int search_reader(Reader *array[], int length, const char *reader_id);
 

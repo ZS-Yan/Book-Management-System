@@ -59,7 +59,7 @@
         </child>
         <child>
           <object class="GtkButton" id="return_button">
-            <property name="label" translatable="yes">返回</property>
+            <property name="label" translatable="yes">返回(R)</property>
             <property name="width_request">133</property>
             <property name="height_request">59</property>
             <property name="visible">True</property>

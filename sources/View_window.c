@@ -4,7 +4,7 @@
 
 #include "headers/View_window.h"
 
-GtkWidget *create_view_window() {
+void *create_view_window() {
     int flag[20] = {0};
     GtkBuilder *builder;//新建一个GtkBuilder对象用于读取GtkBuilder界面文件
     GtkWidget *view_window;
@@ -72,6 +72,7 @@ GtkWidget *create_view_window() {
     gtk_tree_view_columns_autosize(GTK_TREE_VIEW(tree_view));
     gtk_container_add(GTK_CONTAINER(scrolled_window), tree_view);
 
+
     delete_passing_parameters *parameters = (delete_passing_parameters *) malloc(sizeof(delete_passing_parameters));
     parameters->window = view_window;
     parameters->tree_view = tree_view;
@@ -84,7 +85,13 @@ GtkWidget *create_view_window() {
     g_signal_connect(return_button, "clicked", G_CALLBACK(on_return_button_clicked), view_window);
     g_signal_connect(delete_button, "clicked", G_CALLBACK(on_delete_button_clicked), parameters);
     g_signal_connect(delete_all_button, "clicked", G_CALLBACK(on_delete_all_button_clicked), parameters);
-    return view_window;
+    gtk_widget_show_all(view_window);
+    if (Identity == true) {
+        //用户
+        gtk_widget_hide(delete_button);
+        gtk_widget_hide(delete_all_button);
+    }//TODO:隐藏控件
+//    return view_window;
 }
 
 int find_type_index(char *book_type, BookType *book_type_data) {

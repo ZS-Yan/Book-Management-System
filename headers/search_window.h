@@ -29,7 +29,7 @@ typedef struct {
 
 } change_passing_parameters;
 
-GtkWidget *create_search_window();
+void *create_search_window();
 
 void on_id_entry_activate(GtkWidget *id_entry, search_passing_parameters *parameters);
 

@@ -19,7 +19,7 @@ typedef struct {
     GtkWidget *borrow_label;
 } delete_passing_parameters;
 
-GtkWidget *create_view_window();
+void *create_view_window();
 
 int find_type_index(char *book_type, BookType *book_type_data);
 

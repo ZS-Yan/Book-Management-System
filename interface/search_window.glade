@@ -59,7 +59,7 @@
         </child>
         <child>
           <object class="GtkButton" id="return_button">
-            <property name="label" translatable="yes">返回</property>
+            <property name="label" translatable="yes">返回(R)</property>
             <property name="width_request">119</property>
             <property name="height_request">60</property>
             <property name="visible">True</property>
@@ -137,7 +137,7 @@
         </child>
         <child>
           <object class="GtkButton" id="delete_button">
-            <property name="label" translatable="yes">删除</property>
+            <property name="label" translatable="yes">删除(D)</property>
             <property name="width_request">119</property>
             <property name="height_request">60</property>
             <property name="visible">True</property>
@@ -151,7 +151,7 @@
         </child>
         <child>
           <object class="GtkButton" id="change_button">
-            <property name="label" translatable="yes">修改</property>
+            <property name="label" translatable="yes">修改(C)</property>
             <property name="width_request">119</property>
             <property name="height_request">60</property>
             <property name="visible">True</property>

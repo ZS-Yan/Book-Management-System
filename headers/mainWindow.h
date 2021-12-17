@@ -26,6 +26,8 @@ void on_create_button_clicked(GtkWidget *button, gpointer window);
 
 void on_search_button_clicked(GtkWidget *button, gpointer window);
 
+void on_view_borrow_button_clicked(GtkWidget *button, gpointer window);
+
 void on_person_button_clicked(GtkWidget *button, gpointer window);
 
 void on_export_button_clicked(GtkWidget *button, gpointer window);

@@ -37,6 +37,7 @@ GtkWidget *create_main_window() {
     g_signal_connect(create_button, "clicked", G_CALLBACK(on_create_button_clicked), main_window);
     g_signal_connect(search_button, "clicked", G_CALLBACK(on_search_button_clicked), main_window);
     g_signal_connect(person_button, "clicked", G_CALLBACK(on_person_button_clicked), main_window);
+    g_signal_connect(view_borrow_button, "clicked", G_CALLBACK(on_view_borrow_button_clicked), main_window);
     g_signal_connect(export_button, "clicked", G_CALLBACK(on_export_button_clicked), main_window);
     g_signal_connect(Exit_button, "clicked", G_CALLBACK(gtk_main_quit), NULL);//设置“退出按钮”的连接动作
     g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);//设置主窗口关闭信号链接
@@ -44,7 +45,8 @@ GtkWidget *create_main_window() {
 }
 
 void on_view_button_clicked(GtkWidget *button, gpointer window) {
-    gtk_widget_show_all(create_view_window());
+//    gtk_widget_show_all(create_view_window());
+    create_view_window();
 }
 
 void on_create_button_clicked(GtkWidget *button, gpointer window) {
@@ -52,10 +54,11 @@ void on_create_button_clicked(GtkWidget *button, gpointer window) {
 }
 
 void on_search_button_clicked(GtkWidget *button, gpointer window) {
-    gtk_widget_show_all(create_search_window());
+//    gtk_widget_show_all(create_search_window());
+    create_search_window();
 }
 
-void on_view_borrow_button_clicked(GtkWidget *button, gpointer window()) {
+void on_view_borrow_button_clicked(GtkWidget *button, gpointer window) {
     gtk_widget_show_all(create_borrow_window());
 }
 

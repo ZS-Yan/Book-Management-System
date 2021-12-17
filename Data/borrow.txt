@@ -1,6 +1,2 @@
-    char readerName[10];
-    char bookName[30];
-    char bookAuthor[15];
-    char bookPub[20];
-    char borrowTime[20];
-    char returnTime[20];//应归还时间
+李四 Java编程思想 Jerry 电子工业出版社 2021年8月12日 2021年9月12日
+张三 数据结构与算法 Harry 机械工业出版社 2021年12月3日 2022年1月3日

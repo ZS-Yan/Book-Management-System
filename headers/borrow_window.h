@@ -10,4 +10,5 @@
 
 GtkWidget *create_borrow_window();
 
+void on_borrow_name_entry_clicked(GtkWidget *name_entry, GtkTreeStore *store);
 #endif //BOOK_SYSTEM_BORROW_WINDOW_H

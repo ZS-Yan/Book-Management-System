@@ -3,7 +3,7 @@
 //
 #include "headers/search_window.h"
 
-GtkWidget *create_search_window() {
+void *create_search_window() {
     GtkBuilder *builder;//新建一个GtkBuilder对象用于读取GtkBuilder界面文件
     GtkWidget *search_window;
     GtkWidget *scrolled_window;
@@ -53,6 +53,7 @@ GtkWidget *create_search_window() {
     gtk_tree_view_columns_autosize(GTK_TREE_VIEW(tree_view));
     gtk_container_add(GTK_CONTAINER(scrolled_window), tree_view);
 
+
     search_passing_parameters *parameters = (search_passing_parameters *) malloc(sizeof(search_passing_parameters));
     parameters->store = store;
     parameters->name_entry = name_entry;
@@ -66,7 +67,13 @@ GtkWidget *create_search_window() {
     g_signal_connect(name_entry, "activate", G_CALLBACK(on_name_entry_activate), parameters);
     g_signal_connect(delete_button, "clicked", G_CALLBACK(on_search_delete_button_clicked), parameters);
     g_signal_connect(change_button, "clicked", G_CALLBACK(on_change_button_clicked), parameters);
-    return search_window;
+
+    gtk_widget_show_all(search_window);
+    if (Identity == true) {
+        gtk_widget_hide(change_button);//hide指令必须联合show()一起使用
+        gtk_widget_hide(delete_button);
+    }
+//    return search_window;
 }
 
 void on_id_entry_activate(GtkWidget *id_entry, search_passing_parameters *parameters) {
@@ -200,11 +207,9 @@ void on_change_button_clicked(GtkWidget *button, search_passing_parameters *sear
         gtk_entry_set_text(GTK_ENTRY(parameters->author_entry), book_author);
         gtk_entry_set_text(GTK_ENTRY(parameters->pub_entry), book_pub);
         gtk_entry_set_text(GTK_ENTRY(parameters->pages_entry), pages);
-        //TODO:状态和借阅借助单选按钮处理
         g_signal_connect(return_button, "clicked", G_CALLBACK(on_return_button_clicked),
                          change_window);//设置“进入系统”按钮的回调函数
         g_signal_connect(affirm_change_button, "clicked", G_CALLBACK(on_affirm_change_button_clicked), parameters);
-
         gtk_widget_show_all(change_window);
     }
 }

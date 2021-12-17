@@ -17,7 +17,7 @@ typedef struct {
 
 const char *username;
 const char *administrator_name;
-gboolean Identity;
+
 
 GtkWidget *create_login_window();
 
