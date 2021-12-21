@@ -2,11 +2,26 @@
 // Created by god on 2021/12/16.
 //
 #include "headers/user_window.h"
+#include "headers/login_window.h"
 #include "headers/View_window.h"
 #include "headers/search_window.h"
 #include "headers/user_borrow_window.h"
+#include "headers/user_return_window.h"
+#include "headers/user_person_window.h"
 
 GtkWidget *create_user_window() {
+    borrowData = (BorrowInfo *) malloc(sizeof(BorrowInfo));
+    borrowData->borrowNum = 0;
+    FILE *ip3;
+    ip3 = fopen("/home/god/Projects/Book-Management-System/Data/borrow.txt", "r");
+    import_borrow_data_from_File(ip3, borrowData);
+    fclose(ip3);
+    userId = (char *) malloc(sizeof(char) * 30);
+    for (int i = 0; i < readerData->readersNum; i++) {
+        if (strcmp(readerData->readers[i]->username, username) == 0) {
+            strcpy(userId, readerData->readers[i]->readerId);
+        }
+    }
     GtkBuilder *builder;
     GtkWidget *user_window;
     GtkWidget *user_view_button;
@@ -33,6 +48,8 @@ GtkWidget *create_user_window() {
     g_signal_connect(user_view_button, "clicked", G_CALLBACK(on_user_view_button_clicked), user_window);
     g_signal_connect(user_search_button, "clicked", G_CALLBACK(on_user_search_button_clicked), user_window);
     g_signal_connect(user_borrow_button, "clicked", G_CALLBACK(on_user_borrow_button_clicked), user_window);
+    g_signal_connect(user_return_book_button, "clicked", G_CALLBACK(on_user_return_button_clicked), user_window);
+    g_signal_connect(user_person_button, "clicked", G_CALLBACK(on_user_person_button_clicked), user_window);
     g_signal_connect(user_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(user_exit_button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
 
@@ -54,9 +71,13 @@ void on_user_borrow_button_clicked(GtkWidget *button, gpointer window) {
 }
 
 void on_user_return_button_clicked(GtkWidget *button, gpointer window) {
-//    gtk_widget_show_all(create_user_return_window())
+    create_user_return_window();
 }
 
 void on_user_person_button_clicked(GtkWidget *button, gpointer window) {
-//    gtk_widget_show_all(create_view_readers_window());
+    create_user_person_window();
+}
+
+void on_exit_button_clicked() {
+    //TODO:数据写入存储
 }

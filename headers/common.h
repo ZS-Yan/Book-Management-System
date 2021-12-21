@@ -7,7 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 #define N 10000
 #define true 1
@@ -67,8 +69,9 @@ enum {
 };
 typedef struct {
     char readerName[30];
-    char bookName[30];
-    char bookAuthor[15];
+    char bookID[20];
+    char bookName[50];
+    char bookAuthor[30];
     char bookPub[30];
     char borrowTime[20];
     char returnTime[20];//应归还时间
@@ -126,8 +129,8 @@ void Quick_sort_reader(Reader *array[], int length);
 
 int search_book(Book *array[], int length, const char *book_id);
 
-int search_book_name(Book *array[], int length, const char *book_name);
-
 int search_reader(Reader *array[], int length, const char *reader_id);
+
+int search_borrow(BorrowBook *array[], int length, const char *book_id);
 
 #endif //BOOK_SYSTEM_COMMON_H

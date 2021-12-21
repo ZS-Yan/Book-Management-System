@@ -10,6 +10,7 @@ GtkWidget *create_borrow_window() {
     FILE *ip3;
     ip3 = fopen("/home/god/Projects/Book-Management-System/Data/borrow.txt", "r");
     import_borrow_data_from_File(ip3, borrowData);
+    fclose(ip3);
     GtkBuilder *builder;
     GtkWidget *borrow_window;
     GtkWidget *scrolled_window;

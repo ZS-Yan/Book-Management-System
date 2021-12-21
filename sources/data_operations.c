@@ -77,6 +77,8 @@ int import_borrow_data_from_File(FILE *ip, BorrowInfo *borrowInfo) {
         unsigned int length = strlen(buffer);
         /*进行字符串分割*/
         strcpy(borrowBook->readerName, strtok(buffer, whitespace));
+        strcpy(borrowBook->bookID, strtok(NULL, whitespace));
+//        char *p = borrowBook->bookID;char *l = borrowBook->readerName;
         strcpy(borrowBook->bookName, strtok(NULL, whitespace));
         strcpy(borrowBook->bookAuthor, strtok(NULL, whitespace));
         strcpy(borrowBook->bookPub, strtok(NULL, whitespace));
@@ -100,6 +102,32 @@ void import_administrator_data_from_file(FILE *ip, AdministratorInfo *administra
         strcpy(administrator->administrator_name, strtok(buffer, whitespace));
         strcpy(administrator->password, strtok(NULL, linebreak));
         administratorInfo->administrator[administratorInfo->administratorNum++] = administrator;
+    }
+}
+
+void write_book_data_to_file(FILE *op) {
+    for (int i = 0; i < bookData->booksNum; i++) {
+        fprintf(op, "%s %s %s %s %s %d %s\n", bookData->books[i]->bookId, bookData->books[i]->bookName,
+                bookData->books[i]->bookType, bookData->books[i]->bookAuthor, bookData->books[i]->bookPub,
+                bookData->books[i]->status, bookData->books[i]->borrowTime);
+    }
+}
+
+void write_reader_data_to_file(FILE *op) {
+    for (int i = 0; i < readerData->readersNum; i++) {
+        fprintf(op, "%s %s %s %s %s %s %s %d %d\n", readerData->readers[i]->username, readerData->readers[i]->password,
+                readerData->readers[i]->readerId, readerData->readers[i]->readerName, readerData->readers[i]->readerSex,
+                readerData->readers[i]->readerTel, readerData->readers[i]->email, readerData->readers[i]->borrowedNum,
+                readerData->readers[i]->maxBorrowNum);
+    }
+}
+
+void write_borrow_data_to_file(FILE *op) {
+    for (int i = 0; i < borrowData->borrowNum; i++) {
+        fprintf(op, "%s %s %s %s %s %s %s\n", borrowData->borrowBook[i]->readerName, borrowData->borrowBook[i]->bookID,
+                borrowData->borrowBook[i]->bookName, borrowData->borrowBook[i]->bookAuthor,
+                borrowData->borrowBook[i]->bookPub, borrowData->borrowBook[i]->borrowTime,
+                borrowData->borrowBook[i]->returnTime);
     }
 }
 
@@ -170,4 +198,32 @@ void delete_reader(char *reader_id, ReaderInfo *readerInfo) {
 void delete_all_readers(ReaderInfo *readerInfo) {
     readerInfo->readersNum = 0;
 }
+
+void delete_borrow_book(char *book_id, BorrowInfo *borrowInfo) {
+    int location = search_borrow(borrowInfo->borrowBook, borrowInfo->borrowNum, book_id);
+    for (int i = location; i < borrowInfo->borrowNum; i++)//顺序移动
+    {
+        borrowInfo->borrowBook[i] = borrowInfo->borrowBook[i + 1];
+    }
+    borrowInfo->borrowNum -= 1;
+}
+
 //TODO:数据的写入写出，流通中改变数据
+void get_current_borrow_time(char current_time[]) {
+    time_t timecal_ptr;
+    struct tm *tmp_ptr = NULL;
+    time(&timecal_ptr);
+    tmp_ptr = localtime(&timecal_ptr);
+    sprintf(current_time, "%d.%d.%d %d:%d:%d", (1900 + tmp_ptr->tm_year), (1 + tmp_ptr->tm_mon), tmp_ptr->tm_mday,
+            tmp_ptr->tm_hour, tmp_ptr->tm_min, tmp_ptr->tm_sec);
+}
+
+void get_return_book_time(char return_time[]) {
+    time_t timecal_ptr;
+    timecal_ptr = timecal_ptr + 30 * 24 * 60 * 60;
+    struct tm *tmp_ptr = NULL;
+    // time(&timecal_ptr);
+    tmp_ptr = localtime(&timecal_ptr);
+    sprintf(return_time, "%d.%d.%d %d:%d:%d", (1900 + tmp_ptr->tm_year), (1 + tmp_ptr->tm_mon), tmp_ptr->tm_mday,
+            tmp_ptr->tm_hour, tmp_ptr->tm_min, tmp_ptr->tm_sec);
+}

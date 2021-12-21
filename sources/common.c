@@ -96,22 +96,6 @@ int search_book(Book *array[], int length, const char *book_id) {
     return -1;
 }
 
-int search_book_name(Book *array[], int length, const char *book_name) {
-    int low = 0;
-    int high = length - 1;
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        char *midVal = array[mid]->bookName;
-        if (strcmp(midVal, book_name) < 0)
-            low = mid + 1;
-        else if (strcmp(midVal, book_name) > 0)
-            high = mid - 1;
-        else
-            return mid;
-    }
-    return -1;
-}
-
 int search_reader(Reader *array[], int length, const char *reader_id) {
     int low = 0;
     int high = length - 1;
@@ -121,6 +105,22 @@ int search_reader(Reader *array[], int length, const char *reader_id) {
         if (strcmp(midVal, reader_id) < 0)
             low = mid + 1;
         else if (strcmp(midVal, reader_id) > 0)
+            high = mid - 1;
+        else
+            return mid;
+    }
+    return -1;
+}
+
+int search_borrow(BorrowBook *array[], int length, const char *book_id) {
+    int low = 0;
+    int high = length - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        char *midVal = array[mid]->bookID;
+        if (strcmp(midVal, book_id) < 0)
+            low = mid + 1;
+        else if (strcmp(midVal, book_id) > 0)
             high = mid - 1;
         else
             return mid;

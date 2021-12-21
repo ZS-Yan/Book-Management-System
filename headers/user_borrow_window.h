@@ -16,12 +16,16 @@ typedef struct {
     GtkWidget *pages_entry;
     GtkWidget *author_entry;
     GtkWidget *pub_entry;
+    GtkWidget *status_label;
+    int index;
 } user_borrow_passing_parameters;
 
 void create_user_borrow_window();
 
 //void on_name_entry_leave_notified(GtkWidget *entry,user_borrow_passing_parameters *parameters);
 void on_name_entry_leave_notified(GtkWidget *name_entry, GdkEvent *event, user_borrow_passing_parameters *parameters);
+
+void on_borrow_button_clicked(GtkWidget *button, user_borrow_passing_parameters *parameters);
 
 int borrow_flag;
 //user_borrow_passing_parameters *parameters;

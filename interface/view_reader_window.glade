@@ -67,7 +67,7 @@
             </child>
           </object>
           <packing>
-            <property name="x">88</property>
+            <property name="x">49</property>
             <property name="y">181</property>
           </packing>
         </child>
