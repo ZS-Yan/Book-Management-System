@@ -93,9 +93,9 @@ void create_user_person_window() {
 }
 
 void on_user_person_change_button_clicked(GtkWidget *button, user_person_passing_parameters *parameters) {
-
+//TODO:修改个人信息按钮
 }
 
 void on_change_password_button_clicked(GtkWidget *button) {
-
+//TODO:修改密码按钮
 }

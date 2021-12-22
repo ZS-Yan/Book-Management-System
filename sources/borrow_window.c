@@ -58,7 +58,7 @@ GtkWidget *create_borrow_window() {
     GtkTreeIter iter;
     for (int i = 0; i < borrowData->borrowNum; i++) {
         gtk_tree_store_append(store, &iter, NULL);
-        gtk_tree_store_set(store, &iter, COLUMN_BORROWID, i, COLUMN_BORROWREADERNAME, \
+        gtk_tree_store_set(store, &iter, COLUMN_BORROWID, i + 1, COLUMN_BORROWREADERNAME, \
         borrowData->borrowBook[i]->readerName, COLUMN_BORROWBOOKNAME, borrowData->borrowBook[i]->bookName,
                            COLUMN_BORROWBOOKAUTHOR, borrowData->borrowBook[i]->bookAuthor,
                            COLUMN_BORROWBOOKPUB, borrowData->borrowBook[i]->bookPub,
@@ -79,7 +79,7 @@ void on_borrow_name_entry_clicked(GtkWidget *name_entry, GtkTreeStore *store) {
     for (int i = 0; i < borrowData->borrowNum; i++) {
         if (strstr(borrowData->borrowBook[i]->readerName, name_target) != NULL) {
             gtk_tree_store_append(store, &iter, NULL);
-            gtk_tree_store_set(store, &iter, COLUMN_BORROWID, i, COLUMN_BORROWREADERNAME, \
+            gtk_tree_store_set(store, &iter, COLUMN_BORROWID, i + 1, COLUMN_BORROWREADERNAME, \
         borrowData->borrowBook[i]->readerName, COLUMN_BORROWBOOKNAME, borrowData->borrowBook[i]->bookName,
                                COLUMN_BORROWBOOKAUTHOR, borrowData->borrowBook[i]->bookAuthor,
                                COLUMN_BORROWBOOKPUB, borrowData->borrowBook[i]->bookPub,

@@ -83,6 +83,7 @@ void on_login_button_clicked(GtkWidget *button, login_passing_parameters *parame
                 gtk_window_set_title(GTK_WINDOW(prompt_dialog), "Error");
                 gtk_dialog_run(GTK_DIALOG(prompt_dialog));
                 gtk_widget_destroy(prompt_dialog);
+                gtk_widget_hide(parameters->window);
                 gtk_widget_show_all(create_Enter_window());
             } else {
                 GtkWidget *error_dialog;
@@ -117,6 +118,7 @@ void on_login_button_clicked(GtkWidget *button, login_passing_parameters *parame
                 gtk_window_set_title(GTK_WINDOW(prompt_dialog), "Error");
                 gtk_dialog_run(GTK_DIALOG(prompt_dialog));
                 gtk_widget_destroy(prompt_dialog);
+                gtk_widget_hide(parameters->window);
                 gtk_widget_show_all(create_Enter_window());
             } else {
                 GtkWidget *error_dialog;
@@ -136,6 +138,7 @@ void on_password_entry_activate(GtkWidget *password_entry, login_passing_paramet
         //用户
         username = gtk_entry_get_text(GTK_ENTRY(parameters->username_entry));
         int exist_flag = -1;
+        int num = readerData->readersNum;
         for (int i = 0; i < readerData->readersNum; i++) {
             if (strcmp(readerData->readers[i]->username, username) == 0) {
                 exist_flag = i;
@@ -157,6 +160,7 @@ void on_password_entry_activate(GtkWidget *password_entry, login_passing_paramet
                 gtk_window_set_title(GTK_WINDOW(prompt_dialog), "Error");
                 gtk_dialog_run(GTK_DIALOG(prompt_dialog));
                 gtk_widget_destroy(prompt_dialog);
+                gtk_widget_hide(parameters->window);
                 gtk_widget_show_all(create_Enter_window());
             } else {
                 GtkWidget *error_dialog;
@@ -192,6 +196,7 @@ void on_password_entry_activate(GtkWidget *password_entry, login_passing_paramet
                 gtk_window_set_title(GTK_WINDOW(prompt_dialog), "Error");
                 gtk_dialog_run(GTK_DIALOG(prompt_dialog));
                 gtk_widget_destroy(prompt_dialog);
+                gtk_widget_hide(parameters->window);
                 gtk_widget_show_all(create_Enter_window());
             } else {
                 GtkWidget *error_dialog;
@@ -206,9 +211,55 @@ void on_password_entry_activate(GtkWidget *password_entry, login_passing_paramet
 }
 
 void on_register_button_clicked(GtkWidget *button, login_passing_parameters *parameters) {
+    Identity = gtk_switch_get_active(GTK_SWITCH(parameters->choose_switch));
     if (Identity == true) {
-        //TODO:注册窗口
-        //TODO:添加用户名、密码格式合法判断，注册时，正则表达式
+        gtk_widget_hide(parameters->window);
+        GtkBuilder *builder;
+        GtkWidget *register_window;
+        GtkWidget *username_entry;
+        GtkWidget *password_entry;
+        GtkWidget *confirm_password_entry;
+        GtkWidget *tel_entry;
+        GtkWidget *sex_switch;
+        GtkWidget *name_entry;
+        GtkWidget *email_entry;
+        GtkWidget *confirm_button;
+        GtkWidget *return_button;
+
+        builder = gtk_builder_new();
+        gtk_builder_add_from_file(builder, "/home/god/Projects/Book-Management-System/interface/register_window.glade",
+                                  NULL);
+        register_window = GTK_WIDGET(gtk_builder_get_object(builder, "register_window"));
+        username_entry = GTK_WIDGET(gtk_builder_get_object(builder, "username_entry"));
+        password_entry = GTK_WIDGET(gtk_builder_get_object(builder, "password_entry"));
+        confirm_password_entry = GTK_WIDGET(gtk_builder_get_object(builder, "confirm_password_entry"));
+        name_entry = GTK_WIDGET(gtk_builder_get_object(builder, "name_entry"));
+        sex_switch = GTK_WIDGET(gtk_builder_get_object(builder, "sex_switch"));
+        email_entry = GTK_WIDGET(gtk_builder_get_object(builder, "email_entry"));
+        tel_entry = GTK_WIDGET(gtk_builder_get_object(builder, "tel_entry"));
+        confirm_button = GTK_WIDGET(gtk_builder_get_object(builder, "confirm_button"));
+        return_button = GTK_WIDGET(gtk_builder_get_object(builder, "return_button"));
+        gtk_window_set_icon(GTK_WINDOW(register_window),
+                            create_pixbuf("/home/god/Projects/Book-Management-System/pictures/book_system.png"));
+        gtk_window_set_title(GTK_WINDOW(register_window), "图书信息管理系统");
+
+        register_passing_parameters *parameters1 = (register_passing_parameters *) malloc(
+                sizeof(register_passing_parameters));
+        parameters1->register_window = register_window;
+        parameters1->tel_entry = tel_entry;
+        parameters1->name_entry = name_entry;
+        parameters1->sex_switch = sex_switch;
+        parameters1->email_entry = email_entry;
+        parameters1->username_entry = username_entry;
+        parameters1->password_entry = password_entry;
+        parameters1->confirm_password_entry = confirm_password_entry;
+
+        g_signal_connect(register_window, "destroy", G_CALLBACK(on_register_return_button_clicked), register_window);
+        g_signal_connect(confirm_button, "clicked", G_CALLBACK(on_register_confirm_button_clicked), parameters1);
+        g_signal_connect(return_button, "clicked", G_CALLBACK(on_register_return_button_clicked), register_window);
+        gtk_widget_show_all(register_window);
+
+        //TODO:添加用户名(该用户名已被注册)、密码格式合法判断，注册时，正则表达式
     } else {
         GtkWidget *error_dialog;
         error_dialog = gtk_message_dialog_new(GTK_WINDOW(parameters->window), GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -219,3 +270,107 @@ void on_register_button_clicked(GtkWidget *button, login_passing_parameters *par
     }
 }
 
+void on_register_confirm_button_clicked(GtkWidget *button, register_passing_parameters *parameters) {
+//    wrong_information = (char *) malloc(sizeof(char) * 200);
+    wrong_information[0] = '\0';
+    int valid_flag = 1;
+    char *invalid_char = "~!@#-_$%^&*()+=|{}':;',\\[\\\\]<>/?~！@#￥%……&*（）——+|{}【】《》 ‘；：”“’。，、？";
+    Reader *reader = (Reader *) malloc(sizeof(Reader));
+    const char *input_username = gtk_entry_get_text(GTK_ENTRY(parameters->username_entry));
+    const char *input_password = gtk_entry_get_text(GTK_ENTRY(parameters->password_entry));
+    const char *input_copassword = gtk_entry_get_text(GTK_ENTRY(parameters->confirm_password_entry));
+    const char *input_name = gtk_entry_get_text(GTK_ENTRY(parameters->name_entry));
+    gboolean input_sex = gtk_switch_get_active(GTK_SWITCH(parameters->sex_switch));
+    const char *input_tel = gtk_entry_get_text(GTK_ENTRY(parameters->tel_entry));
+    const char *input_email = gtk_entry_get_text(GTK_ENTRY(parameters->email_entry));
+    for (int i = 0; i < readerData->readersNum; i++) {
+        if (strcmp(readerData->readers[i]->username, input_username) == 0) {
+            valid_flag = 0;
+            strcat(wrong_information, "该用户名已存在！\n");
+        }
+    }
+    if (strlen(input_password) < 6) {
+        valid_flag = 0;
+        strcat(wrong_information, "用户密码不得少于6位！\n");
+    }
+    for (int i = 0; i < gbkstrlen(input_username); i++) {
+        //TODO:中文字符会被判定为非法字符，还需要优化
+        if (strchr(invalid_char, input_username[i]) != NULL) {
+            printf("%s", strchr(invalid_char, input_username[i]));
+            valid_flag = 0;
+            strcat(wrong_information, "用户名存在非法字符，请重新输入！\n");
+            break;
+        }
+    }
+    for (int i = 0; i < strlen(input_password); i++) {
+        if (input_password[i] >= 'a' && input_password[i] <= 'z') {
+            continue;
+        } else if (input_password[i] >= 'A' && input_password[i] <= 'Z') {
+            continue;
+        } else if (input_password[i] >= '1' && input_password[i] <= '9') {
+            continue;
+        } else {
+            valid_flag = 0;
+            strcat(wrong_information, "密码不合法，请重新输入！\n");
+            break;
+        }
+    }
+    if (strcmp(input_password, input_copassword) != 0) {
+        valid_flag = 0;
+        strcat(wrong_information, "两次密码输入不一致!\n");
+    }
+    if (valid_flag == 1) {
+        strcpy(reader->username, input_username);
+        strcpy(reader->password, input_password);
+        char readerid[4];
+        sprintf(readerid, "%d", readerData->readersNum + 1);
+        strcpy(reader->readerId, readerid);
+        if (strcmp("", input_name) == 0 || input_name == NULL) {
+            strcpy(reader->readerName, "无");
+        } else {
+            strcpy(reader->readerName, input_name);
+        }
+        if (input_sex) {
+            strcpy(reader->readerSex, "女");
+        } else {
+            strcpy(reader->readerSex, "男");
+        }
+        if (strcmp("", input_tel) == 0 || input_tel == NULL) {
+            strcpy(reader->readerTel, "无");
+        } else {
+            strcpy(reader->readerTel, input_tel);
+        }
+        if (strcmp("", input_email) == 0 || input_email == NULL) {
+            strcpy(reader->email, "无");
+        } else {
+            strcpy(reader->email, input_email);
+        }
+        reader->borrowedNum = 0;
+        reader->maxBorrowNum = 30;
+        insert_reader(reader, readerData);
+        FILE *op;
+        op = fopen("/home/god/Projects/Book-Management-System/Data/readers.txt", "w");
+        write_reader_data_to_file(op);
+        fclose(op);
+        GtkWidget *prompt_dialog;
+        prompt_dialog = gtk_message_dialog_new(GTK_WINDOW(parameters->register_window), GTK_DIALOG_DESTROY_WITH_PARENT,
+                                               GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "注册成功！！");
+        gtk_window_set_title(GTK_WINDOW(prompt_dialog), "提示");
+        gtk_dialog_run(GTK_DIALOG(prompt_dialog));
+        gtk_widget_destroy(prompt_dialog);
+        gtk_widget_hide(parameters->register_window);
+        gtk_widget_show_all(create_login_window());
+    } else {
+        GtkWidget *warning_dialog;
+        warning_dialog = gtk_message_dialog_new(GTK_WINDOW(parameters->register_window), GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", wrong_information);
+        gtk_window_set_title(GTK_WINDOW(warning_dialog), "错误");
+        gtk_dialog_run(GTK_DIALOG(warning_dialog));
+        gtk_widget_destroy(warning_dialog);
+    }
+}
+
+void on_register_return_button_clicked(GtkWidget *button, gpointer window) {
+    gtk_widget_hide(window);
+    gtk_widget_show_all(create_login_window());
+}

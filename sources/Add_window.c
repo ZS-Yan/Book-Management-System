@@ -69,7 +69,6 @@ void on_add_button_clicked(GtkWidget *button, add_passing_parameters *parameters
     gtk_entry_set_text(GTK_ENTRY(parameters->pub_entry), "");
 
     gtk_widget_destroy(dialog);
-    //TODO:将结果即时输出到文件，保存日志
 }
 
 void on_import_button_clicked(GtkWidget *button, gpointer window) {

@@ -39,13 +39,12 @@ GtkWidget *create_main_window() {
     g_signal_connect(person_button, "clicked", G_CALLBACK(on_person_button_clicked), main_window);
     g_signal_connect(view_borrow_button, "clicked", G_CALLBACK(on_view_borrow_button_clicked), main_window);
     g_signal_connect(export_button, "clicked", G_CALLBACK(on_export_button_clicked), main_window);
-    g_signal_connect(Exit_button, "clicked", G_CALLBACK(gtk_main_quit), NULL);//设置“退出按钮”的连接动作
+    g_signal_connect(Exit_button, "clicked", G_CALLBACK(on_exit_button_clicked), NULL);//设置“退出按钮”的连接动作
     g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);//设置主窗口关闭信号链接
     return main_window;
 }
 
 void on_view_button_clicked(GtkWidget *button, gpointer window) {
-//    gtk_widget_show_all(create_view_window());
     create_view_window();
 }
 
@@ -54,7 +53,6 @@ void on_create_button_clicked(GtkWidget *button, gpointer window) {
 }
 
 void on_search_button_clicked(GtkWidget *button, gpointer window) {
-//    gtk_widget_show_all(create_search_window());
     create_search_window();
 }
 
@@ -118,7 +116,6 @@ void on_export_file_button_clicked(GtkWidget *button, gpointer dialog) {
             char *output_file_location_reader = (char *) malloc(sizeof(char) * 200);
             strcpy(output_file_location_reader, foldername);
             output_file_location_reader = strcat(output_file_location_reader, "/reader_information.txt");
-            //TODO:如何新建文件夹
             FILE *op2;
             op2 = fopen(output_file_location_reader, "w");
             for (int i = 0; i < readerData->readersNum; i++) {
@@ -141,7 +138,7 @@ void on_export_file_button_clicked(GtkWidget *button, gpointer dialog) {
             gtk_dialog_run(GTK_DIALOG(promptdialog));
             gtk_widget_destroy(promptdialog);
         }
-        g_free(foldername); //TODO:内存释放时出现错误，考虑是重复释放指针或指针值为空的原因
+        g_free(foldername); //内存释放时出现错误，考虑是重复释放指针或指针值为空的原因
     }
     gtk_widget_destroy(folder_select_dialog);
 }

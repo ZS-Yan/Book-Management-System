@@ -73,8 +73,8 @@ typedef struct {
     char bookName[50];
     char bookAuthor[30];
     char bookPub[30];
-    char borrowTime[20];
-    char returnTime[20];//应归还时间
+    char borrowTime[30];
+    char returnTime[30];//应归还时间
 } BorrowBook;//借阅表
 typedef struct {
     Book *books[50];
@@ -115,6 +115,8 @@ GdkPixbuf *create_pixbuf(const gchar *filename);
 
 void on_return_button_clicked(GtkWidget *button, gpointer window);
 
+void on_exit_button_clicked(GtkWidget *button);
+
 int partition(Book *array[], int low, int high);
 
 void Qsort(Book *array[], int low, int high);
@@ -133,4 +135,5 @@ int search_reader(Reader *array[], int length, const char *reader_id);
 
 int search_borrow(BorrowBook *array[], int length, const char *book_id);
 
+int gbkstrlen(const char *str);
 #endif //BOOK_SYSTEM_COMMON_H

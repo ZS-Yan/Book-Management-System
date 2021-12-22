@@ -90,7 +90,7 @@ void *create_view_window() {
         //用户
         gtk_widget_hide(delete_button);
         gtk_widget_hide(delete_all_button);
-    }//TODO:隐藏控件
+    }
 //    return view_window;
 }
 

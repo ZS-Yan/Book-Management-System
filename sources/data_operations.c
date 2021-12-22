@@ -83,6 +83,8 @@ int import_borrow_data_from_File(FILE *ip, BorrowInfo *borrowInfo) {
         strcpy(borrowBook->bookAuthor, strtok(NULL, whitespace));
         strcpy(borrowBook->bookPub, strtok(NULL, whitespace));
         strcpy(borrowBook->borrowTime, strtok(NULL, whitespace));
+        strcat(borrowBook->borrowTime, " ");
+        strcat(borrowBook->borrowTime, strtok(NULL, whitespace));
         strcpy(borrowBook->returnTime, strtok(NULL, linebreak));
         insert_borrow_book(borrowBook, borrowInfo);
         count++;
@@ -107,8 +109,9 @@ void import_administrator_data_from_file(FILE *ip, AdministratorInfo *administra
 
 void write_book_data_to_file(FILE *op) {
     for (int i = 0; i < bookData->booksNum; i++) {
-        fprintf(op, "%s %s %s %s %s %d %s\n", bookData->books[i]->bookId, bookData->books[i]->bookName,
+        fprintf(op, "%s %s %s %s %s %s %d %s\n", bookData->books[i]->bookId, bookData->books[i]->bookName,
                 bookData->books[i]->bookType, bookData->books[i]->bookAuthor, bookData->books[i]->bookPub,
+                bookData->books[i]->bookPages,
                 bookData->books[i]->status, bookData->books[i]->borrowTime);
     }
 }
@@ -151,6 +154,7 @@ int insert_book(Book *book, BookInfo *bookInfo) {
         bookTypeData->typeNum++;
     }
     bookInfo->books[bookInfo->booksNum++] = book;
+    Quick_sort(bookInfo->books, bookInfo->booksNum);
     return flag;
 }
 
@@ -163,6 +167,7 @@ int insert_reader(Reader *reader, ReaderInfo *readerInfo) {
     }
     if (strcmp(reader->readerSex, "男") == 0 || strcmp(reader->readerSex, "女") == 0) {
         readerInfo->readers[readerInfo->readersNum++] = reader;
+        Quick_sort_reader(readerInfo->readers, readerInfo->readersNum);
         return true;
     } else {
         return false;
@@ -208,7 +213,6 @@ void delete_borrow_book(char *book_id, BorrowInfo *borrowInfo) {
     borrowInfo->borrowNum -= 1;
 }
 
-//TODO:数据的写入写出，流通中改变数据
 void get_current_borrow_time(char current_time[]) {
     time_t timecal_ptr;
     struct tm *tmp_ptr = NULL;

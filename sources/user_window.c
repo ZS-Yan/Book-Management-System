@@ -51,18 +51,16 @@ GtkWidget *create_user_window() {
     g_signal_connect(user_return_book_button, "clicked", G_CALLBACK(on_user_return_button_clicked), user_window);
     g_signal_connect(user_person_button, "clicked", G_CALLBACK(on_user_person_button_clicked), user_window);
     g_signal_connect(user_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-    g_signal_connect(user_exit_button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(user_exit_button, "clicked", G_CALLBACK(on_exit_button_clicked), NULL);
 
     return user_window;
 }
 
 void on_user_view_button_clicked(GtkWidget *button, gpointer window) {
-//    gtk_widget_show_all(create_view_window());
     create_view_window();
 }
 
 void on_user_search_button_clicked(GtkWidget *button, gpointer window) {
-//    gtk_widget_show_all(create_search_window());
     create_search_window();
 }
 
@@ -78,6 +76,3 @@ void on_user_person_button_clicked(GtkWidget *button, gpointer window) {
     create_user_person_window();
 }
 
-void on_exit_button_clicked() {
-    //TODO:数据写入存储
-}

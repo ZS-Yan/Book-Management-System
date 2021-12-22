@@ -113,9 +113,10 @@ void on_return_book_button_clicked(GtkWidget *button, user_return_passing_parame
         gtk_entry_set_text(GTK_ENTRY(parameters->pub_entry), "");
         bookData->books[parameters->index]->status = 0;
         strcpy(bookData->books[parameters->index]->borrowTime, "无");
+        gtk_label_set_text(GTK_LABEL(parameters->status_label), "");
         return_flag = 0;
         int reader_index = search_reader(readerData->readers, readerData->readersNum, userId);
-        readerData->readers[reader_index]->borrowedNum += 1;
+        readerData->readers[reader_index]->borrowedNum -= 1;
         gtk_widget_destroy(dialog);
     }
 }
